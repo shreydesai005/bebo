@@ -1,0 +1,143 @@
+"use client"
+
+import { useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { Heart, Sparkles, Gift, Cake } from "lucide-react"
+import RealSurprise from "./real-surprise" // Make sure this matches the file name
+
+export default function BirthdayCelebration() {
+  const [isCardOpen, setIsCardOpen] = useState(false)
+  const [showRealSurprise, setShowRealSurprise] = useState(false)
+
+  // Show the Real Surprise component if triggered
+  if (showRealSurprise) {
+    return <RealSurprise />
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      {/* Header */}
+      <motion.div
+        initial={{ scale: 0, rotate: -10 }}
+        animate={{ scale: 1, rotate: 0 }}
+        transition={{
+          type: "spring",
+          stiffness: 260,
+          damping: 20,
+          delay: 0.3,
+        }}
+        className="relative mb-2"
+      >
+        <h1 className="text-4xl sm:text-5xl font-bold text-center text-pink-600 mb-2">Happy Birthday!</h1>
+        <div className="flex justify-center gap-3">
+          <Cake className="w-8 h-8 text-pink-500" />
+          <Sparkles className="w-8 h-8 text-yellow-500" />
+          <Heart className="w-8 h-8 text-pink-500" />
+        </div>
+        <h3 className="text-2xl sm:text-3xl font-bold text-center text-pink-600 mt-2">To Bebo Jalan</h3>
+      </motion.div>
+
+      {/* Birthday Card */}
+      <motion.div
+        className="w-full max-w-md mx-auto my-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
+        <div
+          className={`relative cursor-pointer transition-all duration-700 ease-in-out transform ${isCardOpen ? "rotate-0" : "rotate-2"}`}
+          onClick={() => setIsCardOpen(!isCardOpen)}
+        >
+          <div
+            className={`bg-gradient-to-r from-pink-400 to-purple-500 rounded-3xl p-14 sm:p-10 shadow-lg transition-all duration-700 transform ${isCardOpen ? "scale-95" : "scale-100"}`}
+          >
+            <div className="absolute top-2 right-2">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="w-6 h-6 text-yellow-200" />
+              </motion.div>
+            </div>
+
+            <div className="text-center text-white">
+              <p className="text-lg font-medium mb-4">Tap to {isCardOpen ? "close" : "open"} your card</p>
+              <div className="flex justify-center">
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    rotate: [0, 5, 0, -5, 0],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <Gift className="w-14 h-14 text-white" />
+                </motion.div>
+              </div>
+            </div>
+          </div>
+
+          {/* Card content when open */}
+          <AnimatePresence>
+            {isCardOpen && (
+              <motion.div
+                className="absolute inset-0 bg-white max-[350px]:-top-6 max-[350px]:min-h-[275px] rounded-3xl p-4 shadow-xl shadow-rose-100 flex flex-col items-center justify-center"
+                initial={{ rotate: 2, rotateX: -90, opacity: 0 }}
+                animate={{
+                  rotate: 0,
+                  rotateX: 0,
+                  opacity: 1,
+                  zIndex: 10,
+                }}
+                exit={{ rotateX: -90, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="text-center">
+                  <p className="text-purple-700 mb-2">
+                    Happy 20th birthday Avishi. Hope your day is as amazing as you are! 🎉 
+                  </p>
+                  <p className="text-pink-600 font-medium">
+                    I hope your birthday is full of love, magic, and everything that makes you smile 💖
+                  </p>
+                  <div className="flex justify-center mt-2">
+                    <motion.div
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <Heart className="w-8 h-8 stroke-none fill-rose-500" />
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      {/* Final message + Real Surprise Button */}
+      <motion.div
+        className="w-full max-w-md mt-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+      >
+        <div className="text-center">
+          <p className="text-lg text-purple-700 mb-4">
+            May every wish you make today come true. You deserve the world, and I’ll always be here to remind you of that.
+          </p>
+          <div className="flex justify-center items-center gap-2">
+            <p className="text-pink-600 font-medium"> </p>
+          </div>
+        </div>
+
+        <div className="mt-6 text-center">
+          <button
+            onClick={() => setShowRealSurprise(true)}
+            className="px-6 py-3 mt-4 rounded-full bg-purple-500 text-white font-semibold text-lg shadow-md hover:bg-purple-600 transition"
+          >
+            🎁 Real Surprise (moments that i could find)
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
